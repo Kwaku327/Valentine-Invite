@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My Dearest Nirel 💕</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Floating Hearts Background -->
+    <div class="hearts-bg" id="heartsBg"></div>
+
+    <!-- Floating Rose Petals -->
+    <div class="petals-container" id="petalsContainer"></div>
+
+    <!-- Envelope Container -->
+    <div class="envelope-wrapper" id="envelopeWrapper">
+        <div class="envelope" id="envelope">
+            <div class="envelope-back"></div>
+            <div class="envelope-front">
+                <div class="envelope-seal">
+                    <span>💌</span>
+                </div>
+                <p class="envelope-text">For My Love, Nirel</p>
+                <p class="click-hint">Click to open</p>
+            </div>
+            <div class="envelope-flap" id="envelopeFlap"></div>
+        </div>
+    </div>
+
+    <!-- Valentine Card -->
+    <div class="card-container" id="cardContainer">
+        <div class="card" id="card">
+            <!-- Card Front (visible when closed) -->
+            <div class="card-front">
+                <div class="rose-decoration top-left">🌹</div>
+                <div class="rose-decoration top-right">🌹</div>
+                <h1 class="card-title">Will You Be My Valentine?</h1>
+                <div class="heart-divider">💕</div>
+                <p class="subtitle">A Special Message For You</p>
+                <div class="rose-decoration bottom-left">🌹</div>
+                <div class="rose-decoration bottom-right">🌹</div>
+            </div>
+
+            <!-- Card Inside -->
+            <div class="card-inside">
+                <div class="card-content">
+                    <div class="roses-border top"></div>
+
+                    <h2 class="dear-text">My Dearest Nirel,</h2>
+
+                    <div class="love-message">
+                        <p>Every moment with you feels like a beautiful dream I never want to wake up from. Your smile lights up my world, and your love makes everything better.</p>
+                        <p>You are my sunshine, my happiness, and my everything. I can't imagine my life without you in it.</p>
+                    </div>
+
+                    <div class="photo-gallery">
+                        <h3>Our Beautiful Memories</h3>
+                        <div class="photos-grid" id="photosGrid">
+                            <!-- Photos will be added here -->
+                            <div class="photo-placeholder" data-index="1">
+                                <span>📷</span>
+                                <p>Add Photo 1</p>
+                            </div>
+                            <div class="photo-placeholder" data-index="2">
+                                <span>📷</span>
+                                <p>Add Photo 2</p>
+                            </div>
+                            <div class="photo-placeholder" data-index="3">
+                                <span>📷</span>
+                                <p>Add Photo 3</p>
+                            </div>
+                            <div class="photo-placeholder" data-index="4">
+                                <span>📷</span>
+                                <p>Add Photo 4</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question-section">
+                        <h2 class="question">Will you be my Valentine? 💕</h2>
+                        <div class="buttons-container">
+                            <button class="btn yes-btn" id="yesBtn">Yes! 💖</button>
+                            <button class="btn no-btn" id="noBtn">No</button>
+                        </div>
+                    </div>
+
+                    <div class="roses-border bottom"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Celebration Overlay -->
+    <div class="celebration-overlay" id="celebrationOverlay">
+        <div class="celebration-content">
+            <div class="big-heart">💖</div>
+            <h1>Yay! You Made Me So Happy!</h1>
+            <p>I love you so much, Nirel!</p>
+            <p class="forever-text">Forever & Always 💕</p>
+            <div class="fireworks" id="fireworks"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
