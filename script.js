@@ -262,41 +262,142 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 500);
     }
 
-    // Photo Gallery - Allow users to add photos
-    // To add photos, simply replace the placeholders in the HTML
-    // or use this configuration:
+    // ==========================================
+    // Photo Album Flipbook (supports 20-25 photos)
+    // ==========================================
+    // Add your photo URLs and optional captions here:
     const photos = [
-        // Add your photo URLs here:
-        // 'photos/photo1.jpg',
-        // 'photos/photo2.jpg',
+        // { src: 'photos/photo1.jpg', caption: 'Our first date' },
+        // { src: 'photos/photo2.jpg', caption: 'Beach day' },
+        // Or just use strings for no caption:
         // 'photos/photo3.jpg',
-        // 'photos/photo4.jpg'
     ];
 
-    // Initialize photo gallery if photos are provided
-    if (photos.length > 0) {
-        initPhotoGallery(photos);
-    }
+    const TOTAL_PAGES = 25; // total album slots
+    initPhotoAlbum(photos, TOTAL_PAGES);
 
-    function initPhotoGallery(photoUrls) {
-        const photosGrid = document.getElementById('photosGrid');
-        photosGrid.innerHTML = '';
+    function initPhotoAlbum(photoList, totalSlots) {
+        const albumPages = document.getElementById('albumPages');
+        const prevBtn = document.getElementById('albumPrev');
+        const nextBtn = document.getElementById('albumNext');
+        const pageNum = document.getElementById('albumPageNum');
 
-        photoUrls.forEach((url, index) => {
-            const photoItem = document.createElement('div');
-            photoItem.className = 'photo-item';
+        if (!albumPages) return;
 
-            const img = document.createElement('img');
-            img.src = url;
-            img.alt = `Our memory ${index + 1}`;
-            img.loading = 'lazy';
+        let currentPage = 0;
+        let isFlipping = false;
 
-            photoItem.appendChild(img);
-            photosGrid.appendChild(photoItem);
+        const cornerDecos = ['💕', '🌹', '✨', '💖'];
+
+        // Build pages
+        const pageCount = Math.max(totalSlots, photoList.length);
+        for (let i = 0; i < pageCount; i++) {
+            const photo = photoList[i];
+            const page = document.createElement('div');
+            page.className = 'album-page' + (i === 0 ? ' active' : '');
+            page.dataset.index = i;
+
+            // Corner decorations
+            cornerDecos.forEach((deco, di) => {
+                const corner = document.createElement('span');
+                corner.className = 'album-page-deco ' + ['top-left', 'top-right', 'bottom-left', 'bottom-right'][di];
+                corner.textContent = deco;
+                page.appendChild(corner);
+            });
+
+            // Inner frame
+            const inner = document.createElement('div');
+            inner.className = 'album-page-inner';
+
+            if (photo) {
+                const src = typeof photo === 'string' ? photo : photo.src;
+                const img = document.createElement('img');
+                img.src = src;
+                img.alt = 'Memory ' + (i + 1);
+                img.loading = 'lazy';
+                img.draggable = false;
+                inner.appendChild(img);
+            } else {
+                const placeholder = document.createElement('div');
+                placeholder.className = 'placeholder-content';
+                placeholder.innerHTML = '<span>📷</span><p>Photo ' + (i + 1) + '</p>';
+                inner.appendChild(placeholder);
+            }
+
+            page.appendChild(inner);
+
+            // Caption
+            const caption = document.createElement('div');
+            caption.className = 'album-page-caption';
+            if (photo && typeof photo === 'object' && photo.caption) {
+                caption.textContent = photo.caption;
+            }
+            page.appendChild(caption);
+
+            albumPages.appendChild(page);
+        }
+
+        const pages = albumPages.querySelectorAll('.album-page');
+        updateNav();
+
+        function goToPage(newIndex, direction) {
+            if (isFlipping || newIndex < 0 || newIndex >= pages.length || newIndex === currentPage) return;
+            isFlipping = true;
+
+            const oldPage = pages[currentPage];
+            const newPage = pages[newIndex];
+
+            // Flip animation on the old page
+            const flipClass = direction === 'next' ? 'flip-left' : 'flip-right';
+            oldPage.classList.add(flipClass);
+
+            setTimeout(() => {
+                oldPage.classList.remove('active', flipClass);
+                newPage.classList.add('active');
+                currentPage = newIndex;
+                updateNav();
+                isFlipping = false;
+            }, 450);
+        }
+
+        function updateNav() {
+            prevBtn.disabled = currentPage === 0;
+            nextBtn.disabled = currentPage === pages.length - 1;
+            pageNum.textContent = (currentPage + 1) + ' / ' + pages.length;
+        }
+
+        prevBtn.addEventListener('click', () => goToPage(currentPage - 1, 'prev'));
+        nextBtn.addEventListener('click', () => goToPage(currentPage + 1, 'next'));
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            // Only navigate when album is visible
+            const album = document.getElementById('photoAlbum');
+            if (!album || album.closest('.card-container:not(.visible)')) return;
+            if (e.key === 'ArrowLeft') goToPage(currentPage - 1, 'prev');
+            if (e.key === 'ArrowRight') goToPage(currentPage + 1, 'next');
         });
+
+        // Touch / swipe support
+        let touchStartX = 0;
+        let touchStartY = 0;
+        albumPages.addEventListener('touchstart', (e) => {
+            touchStartX = e.touches[0].clientX;
+            touchStartY = e.touches[0].clientY;
+        }, { passive: true });
+
+        albumPages.addEventListener('touchend', (e) => {
+            const dx = e.changedTouches[0].clientX - touchStartX;
+            const dy = e.changedTouches[0].clientY - touchStartY;
+            // Only trigger if horizontal swipe > 40px and mostly horizontal
+            if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) {
+                if (dx < 0) goToPage(currentPage + 1, 'next');
+                else goToPage(currentPage - 1, 'prev');
+            }
+        }, { passive: true });
     }
 
-    // Touch support for mobile devices
+    // Touch support for mobile devices (No button)
     let touchTimeout;
     noBtn.addEventListener('touchmove', (e) => {
         e.preventDefault();
@@ -305,9 +406,20 @@ document.addEventListener('DOMContentLoaded', function() {
     }, { passive: false });
 });
 
-// Instructions for adding photos:
-// ================================
-// Option 1: Add images to the 'photos' folder and update the photos array above
-// Option 2: Replace the placeholder divs in index.html with img tags:
-//           <div class="photo-item"><img src="photos/your-photo.jpg" alt="Memory"></div>
-// Option 3: Use online image URLs in the photos array
+// Instructions for adding photos to the album:
+// =============================================
+// The album supports up to 25 photo slots. Add entries to the photos array:
+//
+// Option 1 - Simple (no caption):
+//   const photos = ['photos/photo1.jpg', 'photos/photo2.jpg', ...];
+//
+// Option 2 - With captions:
+//   const photos = [
+//       { src: 'photos/photo1.jpg', caption: 'Our first date' },
+//       { src: 'photos/photo2.jpg', caption: 'Beach day' },
+//   ];
+//
+// Option 3 - Online URLs:
+//   const photos = ['https://example.com/photo1.jpg', ...];
+//
+// To change the total number of album slots, edit TOTAL_PAGES (default: 25).
