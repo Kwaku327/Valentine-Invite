@@ -367,288 +367,45 @@ body {
     margin-bottom: 0;
 }
 
-/* Photo Album Flipbook */
-.photo-album-section {
+/* Photo Gallery */
+.photo-gallery-section {
     margin: 30px 0;
     text-align: center;
 }
 
-.photo-album-section h3 {
+.photo-gallery-section h3 {
     font-family: 'Great Vibes', cursive;
     font-size: 32px;
     color: #c71585;
     margin-bottom: 20px;
 }
 
-.photo-album {
+.photo-gallery {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
     max-width: 420px;
     margin: 0 auto;
 }
 
-.album-book {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 4 / 5;
-    perspective: 1200px;
-    background: linear-gradient(145deg, #fff0f5, #ffe4ec);
-    border-radius: 4px 16px 16px 4px;
-    box-shadow:
-        0 12px 40px rgba(199, 21, 133, 0.25),
-        inset 0 0 30px rgba(255, 182, 193, 0.3);
+.photo-frame {
+    background: #fff;
+    border-radius: 12px;
     border: 3px solid #ffb6c1;
     overflow: hidden;
+    box-shadow: 0 8px 25px rgba(199, 21, 133, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.album-spine {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 18px;
-    height: 100%;
-    background: linear-gradient(90deg, #d4768e, #e89aad 40%, #f0b8c8 60%, #e89aad);
-    z-index: 10;
-    border-radius: 4px 0 0 4px;
-    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+.photo-frame:hover {
+    transform: scale(1.02);
+    box-shadow: 0 12px 35px rgba(199, 21, 133, 0.3);
 }
 
-.album-spine::before {
-    content: '';
-    position: absolute;
-    top: 15%;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 3px;
-    height: 70%;
-    background: repeating-linear-gradient(
-        180deg,
-        transparent,
-        transparent 8px,
-        rgba(255, 255, 255, 0.4) 8px,
-        rgba(255, 255, 255, 0.4) 10px
-    );
-    border-radius: 2px;
-}
-
-.album-pages {
-    position: absolute;
-    top: 0;
-    left: 18px;
-    right: 0;
-    bottom: 0;
-    overflow: hidden;
-}
-
-.album-page {
-    position: absolute;
-    top: 0;
-    left: 0;
+.photo-frame img {
     width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 24px 20px 20px 20px;
-    background: linear-gradient(145deg, #fff8fa, #fff0f5);
-    opacity: 0;
-    transition: opacity 0.15s ease;
-    pointer-events: none;
-}
-
-.album-page.active {
-    opacity: 1;
-    pointer-events: auto;
-    z-index: 2;
-}
-
-.album-page.flip-left {
-    animation: flipPageLeft 0.5s ease-in-out;
-}
-
-.album-page.flip-right {
-    animation: flipPageRight 0.5s ease-in-out;
-}
-
-@keyframes flipPageLeft {
-    0% {
-        transform: rotateY(0deg);
-        transform-origin: left center;
-        opacity: 1;
-    }
-    50% {
-        transform: rotateY(-90deg);
-        transform-origin: left center;
-        opacity: 0.5;
-    }
-    51% {
-        opacity: 0;
-    }
-    100% {
-        transform: rotateY(0deg);
-        opacity: 0;
-    }
-}
-
-@keyframes flipPageRight {
-    0% {
-        transform: rotateY(0deg);
-        transform-origin: right center;
-        opacity: 1;
-    }
-    50% {
-        transform: rotateY(90deg);
-        transform-origin: right center;
-        opacity: 0.5;
-    }
-    51% {
-        opacity: 0;
-    }
-    100% {
-        transform: rotateY(0deg);
-        opacity: 0;
-    }
-}
-
-.album-page-inner {
-    width: 100%;
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: #fff;
-    border-radius: 10px;
-    border: 2px solid #ffd6e0;
-    overflow: hidden;
-    box-shadow: inset 0 0 15px rgba(255, 182, 193, 0.2);
-    position: relative;
-}
-
-.album-page-inner img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
     display: block;
-}
-
-.album-page-inner .placeholder-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    color: #d4a0b0;
-}
-
-.album-page-inner .placeholder-content span {
-    font-size: 48px;
-}
-
-.album-page-inner .placeholder-content p {
-    font-size: 14px;
-    font-family: 'Playfair Display', serif;
-    font-style: italic;
-}
-
-.album-page-caption {
-    margin-top: 10px;
-    font-family: 'Great Vibes', cursive;
-    font-size: 18px;
-    color: #c71585;
-    min-height: 24px;
-}
-
-.album-page-deco {
-    position: absolute;
-    font-size: 14px;
-    opacity: 0.4;
-    pointer-events: none;
-}
-
-.album-page-deco.top-left {
-    top: 8px;
-    left: 10px;
-}
-
-.album-page-deco.top-right {
-    top: 8px;
-    right: 10px;
-}
-
-.album-page-deco.bottom-left {
-    bottom: 8px;
-    left: 10px;
-}
-
-.album-page-deco.bottom-right {
-    bottom: 8px;
-    right: 10px;
-}
-
-/* Album Navigation Arrows */
-.album-nav-btn {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 36px;
-    height: 60px;
-    background: rgba(199, 21, 133, 0.15);
-    border: none;
-    color: #c71585;
-    font-size: 28px;
-    cursor: pointer;
-    z-index: 20;
-    border-radius: 8px;
-    transition: background 0.2s ease, transform 0.2s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    backdrop-filter: blur(4px);
-}
-
-.album-nav-btn:hover {
-    background: rgba(199, 21, 133, 0.3);
-    transform: translateY(-50%) scale(1.1);
-}
-
-.album-nav-btn:active {
-    transform: translateY(-50%) scale(0.95);
-}
-
-.album-nav-btn:disabled {
-    opacity: 0.3;
-    cursor: default;
-    transform: translateY(-50%);
-}
-
-.album-prev {
-    left: 22px;
-}
-
-.album-next {
-    right: 6px;
-}
-
-/* Album Page Indicator */
-.album-page-indicator {
-    margin-top: 14px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 6px;
-}
-
-.album-page-num {
-    font-family: 'Playfair Display', serif;
-    font-size: 15px;
-    color: #c71585;
-    font-style: italic;
-}
-
-.album-hint {
-    margin-top: 8px;
-    font-size: 13px;
-    color: #d87093;
-    font-style: italic;
+    object-fit: cover;
 }
 
 /* Question Section */
@@ -856,22 +613,8 @@ body {
         font-size: 28px;
     }
 
-    .photo-album {
+    .photo-gallery {
         max-width: 320px;
-    }
-
-    .album-page {
-        padding: 18px 16px 16px 16px;
-    }
-
-    .album-page-caption {
-        font-size: 15px;
-    }
-
-    .album-nav-btn {
-        width: 30px;
-        height: 48px;
-        font-size: 22px;
     }
 
     .btn {
