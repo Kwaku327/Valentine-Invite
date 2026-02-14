@@ -384,7 +384,7 @@ body {
     display: flex;
     flex-direction: column;
     gap: 20px;
-    max-width: 420px;
+    max-width: 100%;
     margin: 0 auto;
 }
 
@@ -404,6 +404,7 @@ body {
 
 .photo-frame img {
     width: 100%;
+    height: 250px;
     display: block;
     object-fit: cover;
 }
@@ -614,7 +615,11 @@ body {
     }
 
     .photo-gallery {
-        max-width: 320px;
+        max-width: 100%;
+    }
+
+    .photo-frame img {
+        height: 180px;
     }
 
     .btn {
