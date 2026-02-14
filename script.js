@@ -263,17 +263,16 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // ==========================================
-    // Photo Album Flipbook (supports 20-25 photos)
+    // Photo Album Flipbook
     // ==========================================
     // Add your photo URLs and optional captions here:
     const photos = [
-        // { src: 'photos/photo1.jpg', caption: 'Our first date' },
-        // { src: 'photos/photo2.jpg', caption: 'Beach day' },
-        // Or just use strings for no caption:
-        // 'photos/photo3.jpg',
+        'photos/photo1.jpg',
+        'photos/photo2.jpg',
+        'photos/photo3.jpg',
     ];
 
-    const TOTAL_PAGES = 25; // total album slots
+    const TOTAL_PAGES = 3;
     initPhotoAlbum(photos, TOTAL_PAGES);
 
     function initPhotoAlbum(photoList, totalSlots) {
